@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CraftOS</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="lockscreen" class="lockscreen-overlay" style="display: none;">
+            <div class="lock-container">
+                <button id="unlock-btn" class="lock-button">🔒</button>
+                <p class="lock-text">Click on lock to sign in</p>
+            </div>
+        </div>
+
+        <div class="topbar">
+            <p class="top-left" style="cursor:pointer" id="welcomeopen">Welcome to CraftOS </p>
+            <span class="top-right" style="cursor:pointer" id="logout">Logout</span>
+        </div>
+
+        <div class="taskbar">
+            <div class="taskbar-content">
+                <div class="taskbar-apps">
+                    <button class="taskbar-app" data-windowid="Calculator" type="button" title="Calculator" aria-label="Open Calculator">🧮</button>
+                    <button class="taskbar-app" data-windowid="Notes" type="button" title="Craft Notes" aria-label="Open Craft Notes">📝</button>
+                    <button class="taskbar-app" data-windowid="Clock" type="button" title="Craft Clock" aria-label="Open Craft Clock">⏰</button>
+                    <button class="taskbar-app" data-windowid="Paint" type="button" title="Craft Paint" aria-label="Open Craft Paint">🎨</button>
+                    <button class="taskbar-app" data-windowid="Racer" type="button" title="Craft Racer" aria-label="Open Craft Racer">🏎️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="deskopApps">
+            <div class="window" id="Calculator">
+                <div class="window-header" data-windowid="Calculator">
+                    <span class="headertext">Calculator</span>
+                    <div class="window-controls">
+                        <button class="maximizebutton" data-windowid="Calculator" type="button" aria-label="Maximize Calculator" title="Maximize"></button>
+                        <button class="closebutton" data-windowid="Calculator" type="button" aria-label="Close Calculator" title="Close"></button>
+                    </div>
+                </div>
+                <div class="window-content" style="padding: 15px;">
+                    <div id="calculator-display" style="background: #1a1a1a; color: #00ff00; padding: 15px; border-radius: 4px; font-size: 28px; text-align: right; margin-bottom: 10px; font-family: monospace; min-height: 40px; border: 1px solid rgba(0, 255, 0, 0.3);">0</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                        <button class="calc-btn" onclick="calculatorClear()" style="background: #ff4444;">C</button>
+                        <button class="calc-btn" onclick="calculatorAppend('/')" style="background: #ff9800;">/</button>
+                        <button class="calc-btn" onclick="calculatorAppend('*')" style="background: #ff9800;">*</button>
+                        <button class="calc-btn" onclick="calculatorAppend('-')" style="background: #ff9800;">-</button>
+                        <button class="calc-btn" onclick="calculatorAppend('7')" style="background: #73ff00;">7</button>
+                        <button class="calc-btn" onclick="calculatorAppend('8')" style="background: #73ff00;">8</button>
+                        <button class="calc-btn" onclick="calculatorAppend('9')" style="background: #00ff37;">9</button>
+                        <button class="calc-btn" onclick="calculatorAppend('+')" style="background: #ff9800;">+</button>
+                        <button class="calc-btn" onclick="calculatorAppend('4')" style="background: #00ff00;">4</button>
+                        <button class="calc-btn" onclick="calculatorAppend('5')" style="background: #00ff2a;">5</button>
+                        <button class="calc-btn" onclick="calculatorAppend('6')" style="background: #00ff00;">6</button>
+                        <button class="calc-btn" onclick="calculatorAppend('*')" style="background: #ff9800;">*</button>
+                        <button class="calc-btn" onclick="calculatorAppend('1')" style="background: #1eff00;">1</button>
+                        <button class="calc-btn" onclick="calculatorAppend('2')" style="background: #00ff22;">2</button>
+                        <button class="calc-btn" onclick="calculatorAppend('3')" style="background: #48ff00;">3</button>
+                        <button class="calc-btn" onclick="calculatorEquals()" style="background: #001aff;">=</button>
+                        <button class="calc-btn" onclick="calculatorBackspace()" style="background: rgb(85, 2, 2);">←</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="window" id="Notes" style="display: none;">
+                <div class="window-header" data-windowid="Notes">
+                    <span class="headertext">Craft Notes</span>
+                    <div class="window-controls">
+                        <button class="maximizebutton" data-windowid="Notes" type="button" aria-label="Maximize Craft Notes" title="Maximize"></button>
+                        <button class="closebutton" data-windowid="Notes" type="button" aria-label="Close Craft Notes" title="Close"></button>
+                    </div>
+                </div>
+                <div class="window-content" style="padding: 15px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+                    <textarea id="notes-textarea" placeholder="Type your notes here..." style="width: 100%; height: 220px; background: rgba(20, 20, 20, 0.8); color: #fff; border: 1px solid #555; border-radius: 4px; padding: 10px; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+                    <div style="margin-top: 8px; font-size: 12px; color: #aaa; text-align: right;">
+                        <span id="notes-status">Saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="window" id="Clock" style="display: none;">
+                <div class="window-header" data-windowid="Clock">
+                    <span class="headertext">Craft Clock</span>
+                    <div class="window-controls">
+                        <button class="maximizebutton" data-windowid="Clock" type="button" aria-label="Maximize Craft Clock" title="Maximize"></button>
+                        <button class="closebutton" data-windowid="Clock" type="button" aria-label="Close Craft Clock" title="Close"></button>
+                    </div>
+                </div>
+                <div class="window-content" style="padding: 15px; display: flex; flex-direction: column; gap: 15px;">
+                    <div style="background: rgba(20, 20, 20, 0.8); padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+                        <label for="timezone-select" style="font-size: 12px; color: #aaa; display: block; margin-bottom: 6px;">Select timezone</label>
+                        <select id="timezone-select" style="width: 100%; padding: 6px; background: #222; color: #fff; border: 1px solid #555; border-radius: 4px; margin-bottom: 10px;">
+                            <option value="Europe/Berlin" selected>Germany (Berlin - CET/CEST)</option>
+                            <option value="America/New_York">USA (New York - EST/EDT)</option>
+                            <option value="America/Los_Angeles">USA (Los Angeles - PST/PDT)</option>
+                            <option value="Europe/London">UK (London - GMT/BST)</option>
+                            <option value="Asia/Tokyo">Japan (Tokyo - JST)</option>
+                            <option value="Australia/Sydney">Australia (Sydney - AEST/AEDT)</option>
+                        </select>
+                        <div id="clock-display" style="font-size: 32px; font-family: monospace; color: #00ffcc; font-weight: bold;">00:00:00</div>
+                    </div>
+
+                    <div style="background: rgba(20, 20, 20, 0.8); padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+                        <div style="font-size: 12px; color: #aaa; margin-bottom: 8px;">Timer / Countdown</div>
+                        <div id="timer-display" style="font-size: 28px; font-family: monospace; color: #ffcc00; font-weight: bold; margin-bottom: 10px;">00:00</div>
+                        <div style="display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 10px;">
+                            <input type="number" id="timer-input-min" min="0" max="99" value="1" style="width: 50px; padding: 5px; background: #222; color: #fff; border: 1px solid #555; border-radius: 4px; text-align: center;"> Min
+                            <input type="number" id="timer-input-sec" min="0" max="59" value="0" style="width: 50px; padding: 5px; background: #222; color: #fff; border: 1px solid #555; border-radius: 4px; text-align: center;"> Sec
+                        </div>
+                        <div style="display: flex; gap: 8px; justify-content: center;">
+                            <button id="timer-start-btn" style="padding: 6px 12px; background: #28a745; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Start</button>
+                            <button id="timer-stop-btn" style="padding: 6px 12px; background: #dc3545; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Stop</button>
+                            <button id="timer-reset-btn" style="padding: 6px 12px; background: #6c757d; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Reset</button>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(20, 20, 20, 0.8); padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+                        <div style="font-size: 12px; color: #aaa; margin-bottom: 8px;">Stopwatch</div>
+                        <div id="stopwatch-display" style="font-size: 28px; font-family: monospace; color: #00aaff; font-weight: bold; margin-bottom: 10px;">00:00.0</div>
+                        <div style="display: flex; gap: 8px; justify-content: center;">
+                            <button id="stopwatch-start-btn" style="padding: 6px 12px; background: #28a745; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Start</button>
+                            <button id="stopwatch-stop-btn" style="padding: 6px 12px; background: #dc3545; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Stop</button>
+                            <button id="stopwatch-reset-btn" style="padding: 6px 12px; background: #6c757d; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="window" id="Paint" style="display: none;">
+                <div class="window-header" data-windowid="Paint">
+                    <span class="headertext">Craft Paint</span>
+                    <div class="window-controls">
+                        <button class="maximizebutton" data-windowid="Paint" type="button" aria-label="Maximize Craft Paint" title="Maximize"></button>
+                        <button class="closebutton" data-windowid="Paint" type="button" aria-label="Close Craft Paint" title="Close"></button>
+                    </div>
+                </div>
+                <div class="window-content" style="padding: 15px; display: flex; flex-direction: column; gap: 10px; height: 100%; box-sizing: border-box;">
+                    <div style="display: flex; gap: 10px; align-items: center; background: rgba(20, 20, 20, 0.8); padding: 8px; border-radius: 6px; border: 1px solid #444; flex-wrap: wrap;">
+                        <input type="color" id="paint-color" value="#00ffcc" style="border: none; width: 32px; height: 32px; cursor: pointer; background: transparent;">
+                        <input type="range" id="paint-size" min="1" max="30" value="4" style="width: 80px;">
+                        <button id="paint-clear-btn" style="padding: 5px 10px; background: #dc3545; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Clear</button>
+                    </div>
+                    <div style="flex: 1; background: #ffffff; border-radius: 6px; overflow: hidden; display: flex;">
+                        <canvas id="paint-canvas" style="width: 100%; height: 220px; cursor: crosshair; touch-action: none;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="window" id="Racer" style="display: none; width: 480px;">
+                <div class="window-header" data-windowid="Racer">
+                    <span class="headertext">Craft Racer</span>
+                    <div class="window-controls">
+                        <button class="maximizebutton" data-windowid="Racer" type="button" aria-label="Maximize Craft Racer" title="Maximize"></button>
+                        <button class="closebutton" data-windowid="Racer" type="button" aria-label="Close Craft Racer" title="Close"></button>
+                    </div>
+                </div>
+                <div class="window-content" style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(20, 20, 20, 0.8); padding: 8px 12px; border-radius: 6px; border: 1px solid #444; flex-wrap: wrap; gap: 8px;">
+                        <span style="font-size: 14px; font-weight: bold; color: #00ffcc;">Score: <span id="racer-score">0</span></span>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <label style="font-size: 12px; color: #aaa;">Color:</label>
+                            <input type="color" id="racer-car-color" value="#ff3333" style="border: none; width: 24px; height: 24px; cursor: pointer; background: transparent;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <label style="font-size: 12px; color: #aaa;">Level:</label>
+                            <select id="racer-difficulty" style="padding: 3px 6px; background: #222; color: #fff; border: 1px solid #555; border-radius: 4px; font-size: 12px;">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="background: #111; border-radius: 6px; overflow: hidden; position: relative; height: 300px; border: 1px solid #444;">
+                        <canvas id="racer-canvas" width="450" height="300" style="display: block; width: 100%; height: 100%;"></canvas>
+                        <div id="racer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+                            <h2 style="color: #fff; margin: 0;">Craft Racer</h2>
+                            <p style="color: #aaa; font-size: 13px; margin: 0; text-align: center; padding: 0 20px;">Use Left/Right arrows or A/D to steer. Endless highway!</p>
+                            <button id="racer-start-btn" style="padding: 8px 20px; background: #28a745; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Start Game</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
