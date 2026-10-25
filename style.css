@@ -7,7 +7,7 @@ body {
 
 body {
     background-color: #003366d5;
-    background-image: url("Berg2.jpg");
+    background-image: url("berg2.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,7 +23,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url("Berg3.jpg");
+    background-image: url("berg3.jpg");
     background-size: cover;
     background-position: center;
     z-index: 99999;
